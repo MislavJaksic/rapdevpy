@@ -1,13 +1,28 @@
 ## Rapid Development Library for Python
 
 ```
+# Note: Install Python 3
+# Update pip and install virtualenv (dependency encapsulator) and black (linter; IDE needs to be restarted)
+
+# Note: install Poetry for Linux
+$: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+
+# Note: install Poetry for Windows
+$: (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python
+# Note: do NOT update Poetry, it will break itself
+
+$: python get-poetry.py --uninstall
+```
+
+```
+# Note: `.toml` project name and package have to match (rapdevpy; rapdevpy)
 $: poetry install  # install all dependencies
 ```
 
 ### dist
 
 ```
-$: pip install dist/rapdevpy-0.0.1-py3-none.any.whl
+$: pip install dist/rapdevpy-0.1.3-py3-none.any.whl
 
 $: rapdevpy
 ```
@@ -24,7 +39,9 @@ $: make html
 
 ### rapdevpy
 
-TODO: how to use the library insutrction
+```
+$: poetry run python ./rapdevpy/runner.py
+```
 
 ### tests
 
@@ -60,11 +77,19 @@ Configure Python libraries.
 $: poetry run black .
 ```
 
-### Publish
+### cProfile
 
 ```
-$: poetry config pypi-token.pypi PyPI-API-Access-Token
+$: poetry run python ./rapdevpy/profiler.py
+```
 
+### Build and publish
+
+```
+$: poetry build
+
+# Note: get the token from your PiPy account
+$: poetry config pypi-token.pypi PyPI-Api-Access-Token
 $: poetry publish --build
 ```
 
