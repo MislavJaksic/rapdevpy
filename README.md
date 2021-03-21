@@ -1,20 +1,6 @@
-## Python Project Template
+## Rapid Development Library for Python
 
 ```
-# Note: Install Python 3
-
-# Note: install Poetry for Linux
-$: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-
-# Note: install Poetry for Windows
-$: (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python
-# Note: do NOT update Poetry, it will break itself
-
-$: python get-poetry.py --uninstall
-```
-
-```
-# Note: `.toml` project name and package have no match (rapdevpy; rapdevpy)
 $: poetry install  # install all dependencies
 ```
 
@@ -38,9 +24,7 @@ $: make html
 
 ### rapdevpy
 
-```
-$: poetry run python ./rapdevpy/runner.py
-```
+TODO: how to use the library insutrction
 
 ### tests
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ObrazacURA verzijaSheme="1.0" xsi:schemaLocation="http://e-porezna.porezna-uprava.hr/sheme/zahtjevi/ObrazacURA/v1-0 ObrazacURA-v1-0.xsd" xmlns="http://e-porezna.porezna-uprava.hr/sheme/zahtjevi/ObrazacURA/v1-0" xmlns:meta="http://e-porezna.porezna-uprava.hr/sheme/Metapodaci/v2-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ObrazacURA verzijaSheme="1.0" xsi:schemaLocation="none-ns-value ObrazacURA-v1-0.xsd" xmlns="none-ns-value" xmlns:meta="meta-ns-value" xmlns:xsi="xsi-ns-value">
 	<meta:Metapodaci>
 		<meta:Naslov dc="http://purl.org/dc/elements/1.1/title">Knjiga primljenih (ulaznih) računa</meta:Naslov>
 		<meta:Autor dc="http://purl.org/dc/elements/1.1/creator">IVAN HORVAT</meta:Autor>

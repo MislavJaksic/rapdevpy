@@ -30,62 +30,79 @@ class TestTree:
         assert lxml_lib.tree_to_string(tree) == settings.test_xml_file_string
 
 
-class TestDataElement:
+class TestChildren:
+    """
+    <?xml version="1.0" encoding="UTF-8"?>
+    <ObrazacURA ...>
+        <meta:Metapodaci>
+        <Zaglavlje>
+        <Tijelo>
+    </ObrazacURA>
+    """
+
+    def test_get_children(self, root):
+        assert lxml_lib.get_tags(lxml_lib.get_children(root)) == [
+            "Metapodaci",
+            "Zaglavlje",
+            "Tijelo",
+        ]
+
+    def test_get_descendants(self, root):
+        assert (
+            lxml_lib.get_tags(lxml_lib.get_descendants(root))
+            == settings.test_xml_root_descendants
+        )
+
+
+class TestElement:
+    """
+    <?xml version="1.0" encoding="UTF-8"?>
+    <ObrazacURA verzijaSheme="1.0" xsi:schemaLocation="none-ns-value ObrazacURA-v1-0.xsd" xmlns="none-ns-value" xmlns:meta="meta-ns-value" xmlns:xsi="xsi-ns-value">
+        <meta:Metapodaci>
+                <meta:Naslov dc="http://purl.org/dc/elements/1.1/title">Knjiga primljenih (ulaznih) računa</meta:Naslov>
+    """
+
     def test_get_first_element(self, element):
         assert (
             lxml_lib.element_to_string(element)
             == settings.test_xml_first_element_string
         )
 
+    def test_get_source_file_name(self, element):
+        assert lxml_lib.get_source_file_name(element) == settings.test_xml_file_path
+
+    def test_get_namespace_dict(self, element):
+        assert lxml_lib.get_namespace_dict(element) == {
+            None: "none-ns-value",
+            "meta": "meta-ns-value",
+            "xsi": "xsi-ns-value",
+        }
+
+    def test_get_namespace_prefix(self, element):
+        assert lxml_lib.get_namespace_prefix(element) == "meta"
+
+    def test_get_sourceline(self, element):
+        lxml_lib.get_sourceline(element) == 4
+
     def test_get_tag(self, element):
         assert lxml_lib.get_tag(element) == "Naslov"
 
     def test_get_namespace(self, element):
-        assert (
-            lxml_lib.get_namespace(element)
-            == "{http://e-porezna.porezna-uprava.hr/sheme/Metapodaci/v2-0}"
-        )
+        assert lxml_lib.get_namespace(element) == "{meta-ns-value}"
 
     def test_get_tag_with_namespace(self, element):
-        assert (
-            lxml_lib.get_tag_with_namespace(element)
-            == "{http://e-porezna.porezna-uprava.hr/sheme/Metapodaci/v2-0}Naslov"
-        )
+        assert lxml_lib.get_tag_with_namespace(element) == "{meta-ns-value}Naslov"
 
     def test_get_text(self, element):
         assert lxml_lib.get_text(element) == "Knjiga primljenih (ulaznih) računa"
 
-
-# class TestRoot:
-#     def test_get_tag(self, root):
-#         pass
-#
-#     def test_get_tag_no_namespace(self, root):
-#         pass
-#
-#     def test_get_sub_elements(self, root):
-#         pass
-#
-#     def test_get_sub_elements_with_tag_filter(self, root):
-#         pass
+    def test_filter_elements_by_tags(self, root):
+        elements = lxml_lib.get_descendants(root)
+        tags = ["Metapodaci"]
+        filtered = lxml_lib.filter_elements_by_tags(elements, tags)
+        assert lxml_lib.get_tags(filtered) == ["Metapodaci"]
 
 
-# class TestGet:
-#     def test_good(self, cache):
-#         assert cache["key"] == "value"
-#
-#     def test_bad(self, cache):
-#         with pytest.raises(KeyError):
-#             cache["bad"]
-#
-#
-# class TestSet:
-#     def test_dict_of_dict(self, cache, dict_of_dict):
-#         cache.set("dict_of_dict", dict_of_dict, expire=60, read=False, tag="data")
-#         assert cache["dict_of_dict"]["Alice"] == {"Bob": 1}
-#         assert cache["dict_of_dict"]["Alice"]["Bob"] == 1
-#
-#     def test_class(self, cache, class_of_primitives):
-#         cache.set("class", class_of_primitives, expire=60, read=False, tag="data")
-#         assert cache["class"].integer == 1
-#         assert cache["class"].string == "Alice"
+class TestBooleans:
+    def test_is_element(self, element):
+        assert lxml_lib.is_element(element) == True
