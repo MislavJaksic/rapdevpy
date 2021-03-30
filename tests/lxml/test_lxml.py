@@ -25,9 +25,13 @@ def element(root):
 
 
 class TestTree:
-    def test_load_tree(self):
+    def test_load_xml_tree(self):
         tree = lxml_lib.load_tree(settings.test_xml_file_path)
-        assert lxml_lib.tree_to_string(tree) == settings.test_xml_file_string
+        assert lxml_lib.stringify(tree) == settings.test_xml_file_string
+
+    def test_load_html_tree(self):
+        tree = lxml_lib.load_tree(settings.test_html_file_path)
+        assert lxml_lib.stringify(tree) == settings.test_html_file_string
 
 
 class TestChildren:
@@ -62,10 +66,16 @@ class TestElement:
                 <meta:Naslov dc="http://purl.org/dc/elements/1.1/title">Knjiga primljenih (ulaznih) računa</meta:Naslov>
     """
 
+    def test_get_root(self, tree):
+        assert lxml_lib.get_tag(lxml_lib.get_root(tree)) == "ObrazacURA"
+
     def test_get_first_element(self, element):
+        assert lxml_lib.stringify(element) == settings.test_xml_first_element_string
+
+    def test_get_element_attribute(self, element):
         assert (
-            lxml_lib.element_to_string(element)
-            == settings.test_xml_first_element_string
+            lxml_lib.get_element_attribute(element, "dc")
+            == "http://purl.org/dc/elements/1.1/title"
         )
 
     def test_get_source_file_name(self, element):
@@ -101,6 +111,27 @@ class TestElement:
         tags = ["Metapodaci"]
         filtered = lxml_lib.filter_elements_by_tags(elements, tags)
         assert lxml_lib.get_tags(filtered) == ["Metapodaci"]
+
+    def test_find_by_xpath(self, tree, root):
+        element = lxml_lib.find_by_xpath(
+            tree,
+            "/meta:Metapodaci/meta:Naslov",
+            {
+                "meta": "meta-ns-value",
+            },
+        )
+        assert lxml_lib.get_tag(element) == "Naslov"
+
+    def test_find_all_by_xpath(self, tree):
+        elements = lxml_lib.find_all_by_xpath(
+            tree,
+            "/Zaglavlje/Razdoblje",
+            {
+                None: "none-ns-value",
+            },
+        )
+        assert elements != []
+        assert lxml_lib.get_tag(elements[0]) == "Razdoblje"
 
 
 class TestBooleans:

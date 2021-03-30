@@ -4,8 +4,17 @@ from lxml import etree
 
 
 def load_tree(file_path):
-    tree = etree.parse(file_path)
-    return tree
+    extension = file_path.split(".")[-1]
+    if extension == "html":
+        parser = etree.HTMLParser(
+            encoding="UTF-8",
+            remove_blank_text=True,
+            remove_comments=True,
+            remove_pis=True,
+        )
+    else:
+        parser = None
+    return etree.parse(file_path, parser=parser)
 
 
 ### Children
@@ -25,9 +34,13 @@ def get_descendants(element):
 ### Element
 
 
-def get_tree_root(tree):
+def get_root(tree):
     root = tree.getroot()
     return root
+
+
+def get_element_attribute(element, attribute):
+    return element.get(attribute)
 
 
 def get_source_file_name(element):
@@ -83,6 +96,18 @@ def filter_elements_by_tags(elements, tags):
     return filtered
 
 
+def find_by_xpath(node, xpath, namespace=None):
+    """
+    Relative path: body
+    Absolute path: /body
+    """
+    return node.find(xpath, namespace)
+
+
+def find_all_by_xpath(node, xpath, namespace=None):
+    return node.findall(xpath, namespace)
+
+
 ### Booleans
 
 
@@ -93,31 +118,9 @@ def is_element(element):
 ### Output and stringify
 
 
-def tree_to_string(tree):
-    root = get_tree_root(tree)
-    return element_to_string(root)
-
-
-def element_to_string(element):
+def stringify(element):
     return etree.tostring(element, pretty_print=True)
 
 
 def tree_to_file(tree, file):
     tree.write(file)
-
-
-### Unsorted and untested
-
-
-def CreateElement(tag):
-    return etree.Element(tag)
-
-
-def add_sub_element_to_element(child_element, element):
-    child_copy = copy.deepcopy(child_element)
-    element.append(child_copy)
-
-
-def insert_sub_element_to_element_at_index(child_element, element, index):
-    child_copy = copy.deepcopy(child_element)
-    element.insert(index, child_copy)
