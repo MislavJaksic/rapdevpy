@@ -1,5 +1,10 @@
 ## Rapid Development Library for Python
 
+* [lxml](https://lxml.de/): parsing XML and HTML
+* [networkx](https://networkx.org/): graph, edge and vertex analysis
+
+## Install and use
+
 ```
 # Note: Install Python 3
 # Update pip and install virtualenv (dependency encapsulator) and black (linter; IDE needs to be restarted)

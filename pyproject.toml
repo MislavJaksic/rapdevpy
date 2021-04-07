@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rapdevpy"
-version = "0.2.0"
+version = "0.3.0"
 description = "A (personal) rapid development Python library that manages common tasks, tests and knowledge."
 
 license = "MIT"
@@ -20,6 +20,7 @@ classifiers = []
 python = "^3.8"
 requests = "^2.22.0"
 lxml = "^4.6.2"
+networkx = "^2.5.1"
 
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.8.1"
