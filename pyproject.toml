@@ -21,6 +21,7 @@ python = "^3.8"
 requests = "^2.22.0"
 lxml = "^4.6.2"
 networkx = "^2.5.1"
+diskcache = "^5.2.1"
 
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.8.1"

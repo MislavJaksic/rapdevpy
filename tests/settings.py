@@ -68,3 +68,5 @@ test_xml_root_descendants = [
 ]
 
 test_edges_file_path = "tests/networkx/data/edges.csv"
+
+test_cache_path = ".testcache"
