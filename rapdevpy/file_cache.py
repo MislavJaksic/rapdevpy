@@ -1,5 +1,5 @@
 import hashlib
-from datetime import timedelta
+
 from diskcache import Cache
 
 
