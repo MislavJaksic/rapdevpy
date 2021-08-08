@@ -1,11 +1,10 @@
-from tests import context
-from tests import settings
-
-import pytest
 from datetime import timedelta
 from time import sleep
 
+import pytest
+
 from rapdevpy.file_cache import FileCache
+from tests import settings
 
 
 @pytest.fixture(scope="function")

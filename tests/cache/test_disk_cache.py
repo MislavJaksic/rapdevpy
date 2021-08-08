@@ -1,9 +1,7 @@
-from tests import context
-from tests import settings
-
 import pytest
-
 from diskcache import Cache
+
+from tests import settings
 
 
 class Primitives:

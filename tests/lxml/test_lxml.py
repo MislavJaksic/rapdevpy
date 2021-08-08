@@ -1,10 +1,8 @@
-from tests import context
-from tests import settings
-
+from rapdevpy import lxml_lib
 import pytest
 from lxml import etree
 
-import lxml_lib
+from tests import settings
 
 
 @pytest.fixture(scope="module")
@@ -53,8 +51,8 @@ class TestChildren:
 
     def test_get_descendants(self, root):
         assert (
-            lxml_lib.get_tags(lxml_lib.get_descendants(root))
-            == settings.test_xml_root_descendants
+                lxml_lib.get_tags(lxml_lib.get_descendants(root))
+                == settings.test_xml_root_descendants
         )
 
 
@@ -74,8 +72,8 @@ class TestElement:
 
     def test_get_element_attribute(self, element):
         assert (
-            lxml_lib.get_element_attribute(element, "dc")
-            == "http://purl.org/dc/elements/1.1/title"
+                lxml_lib.get_element_attribute(element, "dc")
+                == "http://purl.org/dc/elements/1.1/title"
         )
 
     def test_get_source_file_name(self, element):

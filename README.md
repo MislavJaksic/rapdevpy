@@ -1,5 +1,6 @@
 ## Rapid Development Library for Python
 
+* [diskcache](http://www.grantjenks.com/docs/diskcache/): caching
 * [lxml](https://lxml.de/): parsing XML and HTML
 * [networkx](https://networkx.org/): graph, edge and vertex analysis
 
@@ -27,7 +28,7 @@ $: poetry install  # install all dependencies
 ### dist
 
 ```
-$: pip install dist/rapdevpy-0.1.3-py3-none.any.whl
+$: pip install dist/rapdevpy-0.5.2-py3-none.any.whl
 
 $: rapdevpy
 ```
@@ -70,11 +71,11 @@ $: poetry add Package-Name[==Package-Version]
 
 ### pyproject.toml
 
-Define project entry point and metadata.  
+Define project entry point and metadata.
 
 ### setup.cfg
 
-Configure Python libraries.  
+Configure Python libraries.
 
 ### Linters
 

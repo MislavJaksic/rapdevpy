@@ -23,3 +23,7 @@ def get_graph_vertices_up_to_distance(graph: edgelist, vertex, max_distance: int
         list.extend(vertices)
     list.sort()
     return list
+
+
+def get_graph_origin_target_shortest_path(graph: edgelist, origin, target):
+    return networkx.shortest_path(graph, origin, target)
