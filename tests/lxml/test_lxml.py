@@ -1,7 +1,7 @@
-from rapdevpy import lxml_lib
 import pytest
 from lxml import etree
 
+from rapdevpy import lxml_lib
 from tests import settings
 
 

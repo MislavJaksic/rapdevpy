@@ -68,7 +68,16 @@ class TestGetGraphOriginTargetShortestPath:
         assert networkx_lib.get_graph_origin_target_shortest_path(graph, "30003271", "30003271") == ["30003271"]
 
     def test_poitot_f67eq(self, graph):
-        assert networkx_lib.get_graph_origin_target_shortest_path(graph, "30003271", "30003269") == ["30003271","30003269"]
+        assert networkx_lib.get_graph_origin_target_shortest_path(graph, "30003271", "30003269") == ["30003271",
+                                                                                                     "30003269"]
 
     def test_poitot_3mogv(self, graph):
-        assert networkx_lib.get_graph_origin_target_shortest_path(graph, "30003271", "30003324") == ["30003271",'30003274','30003276','30003278','30003279','30003320','30003321','30003323',"30003324"]
+        assert networkx_lib.get_graph_origin_target_shortest_path(graph, "30003271", "30003324") == ["30003271",
+                                                                                                     '30003274',
+                                                                                                     '30003276',
+                                                                                                     '30003278',
+                                                                                                     '30003279',
+                                                                                                     '30003320',
+                                                                                                     '30003321',
+                                                                                                     '30003323',
+                                                                                                     "30003324"]
