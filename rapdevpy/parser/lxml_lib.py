@@ -1,12 +1,19 @@
+from pathlib import Path
+
 from lxml import etree
+from lxml.etree import HTMLParser
+
+"""Tree"""
 
 
-### Tree
+def load_tree(file_path: Path):
+    parser = get_file_parser(file_path)
+    return etree.parse(file_path.as_posix(), parser=parser)
 
 
-def load_tree(file_path):
-    extension = file_path.split(".")[-1]
-    if extension == "html":
+def get_file_parser(file_path: Path) -> HTMLParser:
+    suffix = file_path.suffix
+    if suffix == ".html":
         parser = etree.HTMLParser(
             encoding="UTF-8",
             remove_blank_text=True,
@@ -15,10 +22,10 @@ def load_tree(file_path):
         )
     else:
         parser = None
-    return etree.parse(file_path, parser=parser)
+    return parser
 
 
-### Children
+"""Children"""
 
 
 def get_children(element):
@@ -32,7 +39,7 @@ def get_descendants(element):
     return descendants
 
 
-### Element
+"""Element"""
 
 
 def get_root(tree):
@@ -109,14 +116,14 @@ def find_all_by_xpath(node, xpath, namespace=None):
     return node.findall(xpath, namespace)
 
 
-### Booleans
+"""Booleans"""
 
 
 def is_element(element):
     return etree.iselement(element)
 
 
-### Output and stringify
+"""Output and stringify"""
 
 
 def stringify(element):

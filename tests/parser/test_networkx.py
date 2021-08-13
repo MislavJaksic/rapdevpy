@@ -1,6 +1,6 @@
 import pytest
 
-from rapdevpy import networkx_lib
+from rapdevpy.parser import networkx_lib
 from tests import settings
 
 

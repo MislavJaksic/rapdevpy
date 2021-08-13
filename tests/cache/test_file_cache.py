@@ -3,7 +3,7 @@ from time import sleep
 
 import pytest
 
-from rapdevpy.file_cache import FileCache
+from rapdevpy.cache.file_cache import FileCache
 from tests import settings
 
 

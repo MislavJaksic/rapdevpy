@@ -47,6 +47,6 @@ class TestSet:
         assert cache["dict_of_dict"]["Alice"]["Bob"] == 1
 
     def test_class(self, cache, class_of_primitives):
-        cache.set("class", class_of_primitives, expire=60, read=False, tag="data")
-        assert cache["class"].integer == 1
-        assert cache["class"].string == "Alice"
+        cache.set("model", class_of_primitives, expire=60, read=False, tag="data")
+        assert cache["model"].integer == 1
+        assert cache["model"].string == "Alice"
