@@ -4,6 +4,9 @@ from rapdevpy.concise_numbers import suffix_number
 
 
 class TestSuffixNumber:
+    def test_zero(self):
+        assert suffix_number(0.0) == "0.0"
+
     def test_ten(self):
         assert suffix_number(10.0) == "10.0"
 

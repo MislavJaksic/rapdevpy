@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rapdevpy"
-version = "0.5.3"
+version = "0.5.7"
 description = "A (personal) rapid development Python library that manages common tasks, tests and knowledge."
 
 license = "MIT"
