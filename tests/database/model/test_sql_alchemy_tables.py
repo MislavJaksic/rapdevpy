@@ -1,4 +1,3 @@
-
 class TestGetItem:
     def test___getitem__(self, temp_tables):
         key = "user_account_2"

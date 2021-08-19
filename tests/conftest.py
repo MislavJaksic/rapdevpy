@@ -43,8 +43,10 @@ def operator(tables):
         operator.execute_text("CREATE TABLE test_table (x int, y int)", [])
         operator.execute_text("INSERT INTO test_table (x, y) VALUES (:x, :y)", [{"x": 1, "y": 2}])
         operator.create_all_tables(tables.metadata)
-        operator.execute_core(insert(User), [{"name": "sandy", "fullname": "Sandy Cheeks"}])
-        operator.execute_core(insert(Address), [{"email_address": "sandy@squirrelpower.org", "user_id": 1}])
+        operator.execute_core(insert(User), [{"name": "sandy", "fullname": "Sandy Cheeks"},
+                                             {"name": "mint", "fullname": "Mint Bike"}])
+        operator.execute_core(insert(Address), [{"email_address": "sandy@squirrelpower.org", "user_id": 1},
+                                                {"email_address": "hello@world.org", "user_id": 3}])
         operator.commit()
         yield operator
 

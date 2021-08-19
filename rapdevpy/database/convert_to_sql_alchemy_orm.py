@@ -13,6 +13,7 @@ data_type_map = {"date-time": "DateTime",
                  "object": "Object",
                  "array": "Array"}
 
+
 def swagger_file_to_sql_alchemy_orm_classes(file_path: Path):  # ToDo test and perhaps publish into a spereate app
     classes = []
     with open(file_path, "r") as file:

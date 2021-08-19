@@ -1,7 +1,5 @@
-from pathlib import Path
-
 import pytest
-from sqlalchemy import insert, select, and_, or_
+from sqlalchemy import insert, select, and_, or_, delete
 from sqlalchemy.exc import OperationalError, CompileError, IntegrityError, NoSuchTableError
 
 from tests.database.model import Base2
@@ -29,6 +27,7 @@ class TestExecuteText:
         values = [{"x": 1, "y": 2}]
         operator.execute_text(sql, values)
         assert (1, 2) in operator.execute_text("SELECT x, y FROM test_table", []).all()
+        operator.execute_text("DELETE FROM test_table WHERE x = 1 AND y = 2", [])
 
     def test_many_insert_into(self, operator):
         sql = "INSERT INTO test_table (x, y) VALUES (:x, :y)"
@@ -37,20 +36,25 @@ class TestExecuteText:
         rows = operator.execute_text("SELECT x, y FROM test_table", []).all()
         assert (3, 4) in rows
         assert (5, 6) in rows
+        operator.execute_text("DELETE FROM test_table WHERE x = 3 AND y = 4", [])
+        operator.execute_text("DELETE FROM test_table WHERE x = 5 AND y = 6", [])
 
 
-class TestExecuteCore:
+class TestExecuteCoreInsert:
     def test_insert_into_table(self, operator, tables):
-        values = [{"name": "sandy", "fullname": "Sandy Cheeks"}, {"name": "patrick", "fullname": "Patrick Star"}]
+        values = [{"name": "kilo", "fullname": "Kilo Milo"}, {"name": "patrick", "fullname": "Patrick Star"}]
         operator.execute_core(insert(tables["user_account"]), values)
         rows = operator.execute_text("SELECT name, fullname FROM user_account", []).all()
-        assert ("sandy", "Sandy Cheeks") in rows
+        assert ("kilo", "Kilo Milo") in rows
+        operator.execute_core(delete(User).where(User.name == "kilo"), [])
+        operator.execute_core(delete(User).where(User.name == "patrick"), [])
 
     def test_insert_orm(self, operator, tables):
         values = [{"name": "a"}]
         operator.execute_core(insert(User), values)
         rows = operator.execute_text("SELECT name, fullname FROM user_account", []).all()
         assert ("a", None) in rows
+        operator.execute_core(delete(User).where(User.name == "a"), [])
 
     def test_insert_existing_primary_key(self, operator, tables):
         values = [{"id": 1, "name": "sandy", "fullname": "Sandy Cheeks"}]
@@ -67,11 +71,13 @@ class TestExecuteCore:
         """
         SQLite does not support RETURNING.
         """
-        values = [{"name": "sandy", "fullname": "Sandy Cheeks"}, {"name": "patrick", "fullname": "Patrick Star"}]
+        values = [{"name": "imigen", "fullname": "Imigen Fitzroy"}]
         user = tables["user_account"]
         with pytest.raises(CompileError):
             operator.execute_core(insert(user).returning(user.c.name, user.c.fullname), values).all()
 
+
+class TestExecuteCoreSelect:
     def test_select_user_orm(self, operator):
         rows = operator.execute_core(select(User).where(User.name == "sandy"), []).all()
         assert rows[0][0].name == "sandy"
@@ -87,24 +93,41 @@ class TestExecuteCore:
         assert rows[0][0] == "sandy@squirrelpower.org"
 
     def test_filter_by_orm(self, operator):
-        rows = operator.execute_core(select(User).filter_by(name='sandy', fullname='Sandy Cheeks'), [{}]).all()
+        rows = operator.execute_core(select(User).filter_by(name='sandy', fullname='Sandy Cheeks'), []).all()
         assert rows[0][0].name == "sandy"
         assert rows[0][0].fullname == "Sandy Cheeks"
 
-    def test_join_from_orm(self, operator):
-        row = operator.execute_core(select(User.name, Address.email_address).join_from(User, Address), [{}]).first()
-        assert row[0] == "sandy"
-        assert row[1] == "sandy@squirrelpower.org"
 
-    def test_join_from_with_on_orm(self, operator):  # ToDo
-        row = operator.execute_core(select(User.name, Address.email_address).join_from(User, Address, User.id == Address.user_id), [{}]).first()
-        assert row[0] == "sandy"
-        assert row[1] == "sandy@squirrelpower.org"
+class TestExecuteCoreJoin:
+    def test_inner_join_from_orm(self, operator):
+        rows = operator.execute_core(select(User.name, Address.email_address).join_from(User, Address), []).all()
+        assert rows[0] == ('sandy', 'sandy@squirrelpower.org')
 
-    def test_join_orm(self, operator):
-        row = operator.execute_core(select(User.name, Address.email_address).join(Address), [{}]).first()
-        assert row[0] == "sandy"
-        assert row[1] == "sandy@squirrelpower.org"
+    def test_inner_join_from_with_on_orm(self, operator):  # ToDo look at the example above
+        rows = operator.execute_core(
+            select(User.name, Address.email_address).join_from(User, Address, User.id == Address.user_id), []).all()
+        assert rows[0] == ('sandy', 'sandy@squirrelpower.org')
+
+    def test_inner_join_orm(self, operator):
+        rows = operator.execute_core(select(User.name, Address.email_address).join(Address), []).all()
+        assert rows[0] == ('sandy', 'sandy@squirrelpower.org')
+
+    def test_outer_left_join_orm(self, operator):
+        rows = operator.execute_core(select(User.name, Address.email_address).join_from(User, Address, isouter=True),
+                                     []).all()
+        assert rows[0] == ('sandy', 'sandy@squirrelpower.org')
+        assert rows[1] == ('mint', None)
+
+    def test_outer_right_join_orm(self, operator):
+        rows = operator.execute_core(select(User.name, Address.email_address).join_from(Address, User, isouter=True),
+                                     []).all()
+        assert rows[0] == ('sandy', 'sandy@squirrelpower.org')
+        assert rows[1] == (None, 'hello@world.org')
+
+    def test_right_full_outer_join_orm(self, operator):
+        with pytest.raises(OperationalError):
+            operator.execute_core(select(User.name, Address.email_address).join_from(Address, User, full=True),
+                                  []).all()
 
     # def test_select(self, operator):  # ToDo finish the tutorial; stopped at https://docs.sqlalchemy.org/en/14/tutorial/data_select.html
     #     sql = None
@@ -139,6 +162,7 @@ class TestGetTableColumnList:
         table = "nothing"
         assert operator.get_table_column_list(table) == []
 
+
 # class TestTableToOrmFile: # ToDo
 #     def test_table_to_orm_file(self, operator, tmp_path):
 #         table = "test_table"
@@ -155,9 +179,11 @@ class TestGetTableMetadata:
         with pytest.raises(NoSuchTableError):
             operator.get_table_metadata("test_table_not_exist")
 
+
 class TestGetAlchemyVersion:
     def test_get_alchemy_version(self, operator):
         assert operator.get_alchemy_version() == "1.4.22"
+
 
 class TestIsTableExist:
     def test_true(self, operator):
