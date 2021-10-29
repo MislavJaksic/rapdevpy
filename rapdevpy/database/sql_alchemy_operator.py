@@ -12,7 +12,7 @@ class SqlAlchemyOperator:
     engine: Engine
     session: Session
 
-    def __init__(self, database_url: str):
+    def __init__(self, database_url: str, is_echo: bool = True, is_future: bool = True):
         """
         :param database_url "sqlite:///C:\\path\\to\\foo.db" or "sqlite:///:memory:"
 
@@ -20,7 +20,7 @@ class SqlAlchemyOperator:
         Connection: unit of connectivity
         Session: an ORM style Connection
         """
-        self.engine = create_engine(database_url, echo=True, future=True)
+        self.engine = create_engine(database_url, echo=is_echo, future=is_future)
         self.session = Session(self.engine)
 
     def __enter__(self):

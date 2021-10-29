@@ -29,7 +29,7 @@ $: poetry install  # install all dependencies
 ### dist
 
 ```
-$: pip install dist/rapdevpy-0.5.7-py3-none.any.whl
+$: pip install dist/rapdevpy-0.5.8-py3-none.any.whl
 
 $: rapdevpy
 ```
