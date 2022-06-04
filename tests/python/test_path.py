@@ -5,7 +5,9 @@ import pytest
 
 @pytest.fixture(scope="function")
 def path():
-    yield Path("E:/GreatRepository/Publishing/GitHubRepositories/rapdevpy/rapdevpy/cache/file_cache.py")
+    yield Path(
+        "E:/GreatRepository/Publishing/GitHubRepositories/rapdevpy/rapdevpy/cache/file_cache.py"
+    )
 
 
 class TestPath:
@@ -17,7 +19,15 @@ class TestPath:
 
     def test_attribute_parts(self, path):
         assert path.parts == (
-        "E:\\", "GreatRepository", "Publishing", "GitHubRepositories", "rapdevpy", "rapdevpy", "cache", "file_cache.py")
+            "E:\\",
+            "GreatRepository",
+            "Publishing",
+            "GitHubRepositories",
+            "rapdevpy",
+            "rapdevpy",
+            "cache",
+            "file_cache.py",
+        )
 
     def test_attribute_anchor(self, path):
         assert path.anchor == "E:\\"

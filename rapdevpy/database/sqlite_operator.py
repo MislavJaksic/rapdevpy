@@ -19,11 +19,14 @@ class SqliteOperator:
         return self.cursor.fetchall()
 
     def get_tables(self) -> List[str]:
-        tuples = self.execute("""
+        tuples = self.execute(
+            """
         SELECT name FROM sqlite_master 
         WHERE type = 'table' 
         AND name NOT LIKE 'sqlite_%'
-        ORDER BY 1;""", {})
+        ORDER BY 1;""",
+            {},
+        )
         return [x[0] for x in tuples]
 
     def get_table_info(self, table: str) -> List[Tuple]:

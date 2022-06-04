@@ -61,14 +61,22 @@ class SqlAlchemyOperator:
             file.write("    __tablename__ = '{}'\n\n".format(table))
             for column in columns:
                 if column["nullable"]:
-                    file.write("    {} = Column({})\n".format(column["name"], column["type"]))
+                    file.write(
+                        "    {} = Column({})\n".format(column["name"], column["type"])
+                    )
                 else:
                     file.write(
-                        "    {} = Column({}, nullable={})\n".format(column["name"], column["type"], column["nullable"]))
+                        "    {} = Column({}, nullable={})\n".format(
+                            column["name"], column["type"], column["nullable"]
+                        )
+                    )
             file.write("    def __repr__(self):\n")
-            file.write("        return '{}'.format({})\n".format(
-                ", ".join(["{}={{}}".format(column["name"]) for column in columns]),
-                ", ".join(["self.{}".format(column["name"]) for column in columns])))
+            file.write(
+                "        return '{}'.format({})\n".format(
+                    ", ".join(["{}={{}}".format(column["name"]) for column in columns]),
+                    ", ".join(["self.{}".format(column["name"]) for column in columns]),
+                )
+            )
             file.write("\n")
 
     def get_table_metadata(self, table: str) -> Table:

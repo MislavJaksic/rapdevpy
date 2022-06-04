@@ -5,7 +5,7 @@ from . import Base2
 
 
 class User2(Base2):
-    __tablename__ = 'user_account_2'
+    __tablename__ = "user_account_2"
 
     id = Column(Integer, primary_key=True)
     name = Column(String(30))

@@ -9,6 +9,11 @@
 """
 from pathlib import Path
 
-from rapdevpy.database.convert_to_sql_alchemy_orm import swagger_file_to_sql_alchemy_orm_classes
+from rapdevpy.database.convert_to_sql_alchemy_orm import (
+    swagger_file_to_sql_alchemy_orm_classes,
+)
 
-swagger_file_to_sql_alchemy_orm_classes(Path("swagger.json"))
+# swagger_file_to_sql_alchemy_orm_classes(Path("swagger.json"))
+from rapdevpy.parser import cprofile_parser
+
+cprofile_parser.parse("profile-log.txt")

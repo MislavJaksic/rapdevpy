@@ -70,8 +70,8 @@ class TestGetChildren:
 class TestGetDescendants:
     def test_get_descendants(self, root):
         assert (
-                lxml_lib.get_tags(lxml_lib.get_descendants(root))
-                == settings.test_xml_root_descendants
+            lxml_lib.get_tags(lxml_lib.get_descendants(root))
+            == settings.test_xml_root_descendants
         )
 
 
@@ -83,8 +83,8 @@ class TestGetRoot:
 class TestGetElementAttribute:
     def test_get_element_attribute(self, element):
         assert (
-                lxml_lib.get_element_attribute(element, "dc")
-                == "http://purl.org/dc/elements/1.1/title"
+            lxml_lib.get_element_attribute(element, "dc")
+            == "http://purl.org/dc/elements/1.1/title"
         )
 
 
@@ -121,6 +121,7 @@ class TestGetTag:
 #     def test_get_tags(self):
 #         elements = None
 #         assert lxml_lib.get_tags(elements) == None
+
 
 class TestGetNamespace:
     def test_get_namespace(self, element):
@@ -178,6 +179,7 @@ class TestIsElement:
 class TestStringify:
     def test_get_first_element(self, element):
         assert lxml_lib.stringify(element) == settings.test_xml_first_element_string
+
 
 # model TestTreeToFile:
 #     def test_tree_to_file(self):

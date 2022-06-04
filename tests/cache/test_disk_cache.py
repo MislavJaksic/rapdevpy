@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 from diskcache import Cache
 
@@ -12,7 +14,7 @@ class Primitives:
 
 @pytest.fixture(scope="function")
 def cache():
-    cache = Cache(settings.test_cache_path)
+    cache = Cache(Path(settings.test_cache_path).__str__())
     cache.set("key", "value", expire=60, read=False, tag="data")
     yield cache
     cache.clear()
@@ -37,7 +39,7 @@ class TestGet:
 
     def test_bad(self, cache):
         with pytest.raises(KeyError):
-            cache["bad"]
+            nothing = cache["bad"]
 
 
 class TestSet:

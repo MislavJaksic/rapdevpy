@@ -1,35 +1,32 @@
 ## Rapid Development Library for Python
 
 * [sqlalchemy](https://www.sqlalchemy.org/): database object relationship mapping
-* [diskcache](http://www.grantjenks.com/docs/diskcache/): caching
 * [lxml](https://lxml.de/): parsing XML and HTML
 * [networkx](https://networkx.org/): graph, edge and vertex analysis
 
-## Install and use
+## Development
 
 ```
 # Note: Install Python 3
 # Update pip and install virtualenv (dependency encapsulator) and black (linter; IDE needs to be restarted)
 
 # Note: install Poetry for Linux
-$: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+$: curl -sSL https://install.python-poetry.org | python3 -
 
 # Note: install Poetry for Windows
-$: (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python
-# Note: do NOT update Poetry, it will break itself
+$: (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
 
-$: python get-poetry.py --uninstall
+$: curl -sSL https://install.python-poetry.org | python3 - --uninstall
 ```
 
 ```
-# Note: `.toml` project name and package have to match (rapdevpy; rapdevpy)
 $: poetry install  # install all dependencies
 ```
 
 ### dist
 
 ```
-$: pip install dist/rapdevpy-0.5.8-py3-none.any.whl
+$: pip install dist/rapdevpy-1.0.0-py3-none.any.whl
 
 $: rapdevpy
 ```
@@ -57,8 +54,9 @@ $: poetry run pytest --durations=0
 ```
 
 ```
-$: poetry run pytest --cov=rapdevpy --cov-report=html tests
-#: Note: see coverage report in htmlcov/index.html
+$: poetry run pytest --cov=poetry_template --cov-report=html tests
+# Note: see coverage report in htmlcov/index.html
+# Note: exclude directories from coverage report through .coveragerc
 ```
 
 ### poetry.lock
@@ -67,21 +65,24 @@ Dependencies, Python version and the virtual environment are managed by `Poetry`
 
 ```
 $: poetry search Package-Name
-$: poetry add Package-Name[==Package-Version]
+$: poetry add [-D] Package-Name[==Package-Version]
 ```
 
 ### pyproject.toml
 
 Define project entry point and metadata.
 
-### setup.cfg
-
-Configure Python libraries.
 
 ### Linters
 
 ```
 $: poetry run black .
+```
+
+### MyPy
+
+```
+$: poetry run mypy ./rapdevpy ./tests
 ```
 
 ### cProfile

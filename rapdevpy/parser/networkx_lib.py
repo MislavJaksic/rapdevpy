@@ -1,9 +1,11 @@
+from pathlib import Path
+
 import networkx
 from networkx.readwrite import edgelist
 
 
-def read_graph_edges(filename: str) -> edgelist:
-    return networkx.read_edgelist(filename)
+def read_graph_edges(filename_path: Path) -> edgelist:
+    return networkx.read_edgelist(filename_path)
 
 
 def get_graph_summary(graph: edgelist) -> str:
