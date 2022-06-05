@@ -117,7 +117,7 @@ toml = ["tomli"]
 name = "diskcache"
 version = "5.4.0"
 description = "Disk Cache -- Disk and file backed persistent cache."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3"
 
@@ -624,7 +624,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "ce1e0312f7997b2cdd37e024e264566483cccff427a56d6e66721fe6fcb4bb27"
+content-hash = "35742959c4328329032c41e1c7cf120722850e7d3d22df09dedc11581a8f046e"
 
 [metadata.files]
 alabaster = [

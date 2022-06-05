@@ -21,7 +21,6 @@ python = "^3.8"
 requests = "^2.27.1"
 lxml = "^4.6.2"
 networkx = "^2.5.1"
-diskcache = "^5.2.1"
 loguru = "^0.6.0"
 sqlalchemy = "^1.4.22"
 
@@ -33,6 +32,7 @@ pytest-integration = "0.2.2"
 Sphinx = "^5.0.0"
 black = "^22.3.0"
 mypy = "^0.960"
+diskcache = "^5.4.0"
 
 [tool.poetry.scripts]
 rapdevpy = "rapdevpy.runner:run"
